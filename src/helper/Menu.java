@@ -64,10 +64,11 @@ public class Menu {
         System.out.println("1. Assign Room");
         System.out.println("2. Check Out");
         System.out.println("3. Check Invoice");
-        System.err.println("4. Check Room Availability");
+        System.out.println("4. Check All Invoice");
+        System.err.println("5. Check Room Availability");
         System.out.println("0. Back");
         System.out.println("====================================");
-        return Validator.getInt("Enter your choice: ", 0, 4);
+        return Validator.getInt("Enter your choice: ", 0, 5);
     }
 
     public static int UserMenu(User user) {

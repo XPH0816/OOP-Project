@@ -2,13 +2,14 @@ package model;
 
 import enums.RoomStatus;
 import enums.RoomType;
+import error.NotAvaliable;
 import helper.Validator;
 import util.FoodList;
 import util.OrderList;
 import util.RoomList;
 
 public class User extends Person {
-    private static int count = 0;
+    static int count = 0;
     private int ID;
 
     public User(String name, int age) {
@@ -47,7 +48,7 @@ public class User extends Person {
         orders.add(order);
     }
 
-    public void selectRoom(RoomList rooms) {
+    public void selectRoom(RoomList rooms) throws NotAvaliable {
         RoomList emptyRooms = null;
         switch (helper.Menu.RoomMenu()) {
             case 1:
@@ -65,13 +66,9 @@ public class User extends Person {
                 System.out.println(emptyRooms);
                 break;
         }
-        if (emptyRooms == null)
-            return;
-        if (emptyRooms.size() == 0) {
-            System.out.println("No room available");
-            Validator.pause();
-            return;
-        }
+        if (emptyRooms == null || emptyRooms.size() == 0)
+            throw new NotAvaliable("No room available");
+
         int choice = Validator.getInt("Enter your choice :", 1, emptyRooms.size());
         Room selectedRoom = emptyRooms.get(choice - 1);
         selectedRoom.setID(this.ID);

@@ -28,15 +28,17 @@ public class InvoiceList extends ArrayList<Invoice> implements Searchable<Invoic
 
     @Override
     public String toString() {
-        if(this.size() == 0) return String.format("No invoice");
+        if (this.size() == 0)
+            return String.format("No invoice");
         String result = "";
-        result += String.format("====================================") + "\n";
-        result += String.format(" InvoiceID %22s", "User") + "\n";
-        result += String.format("====================================") + "\n";
+        result += String.format("=============================================") + "\n";
+        result += String.format(" InvoiceID %10s %22s", "UserID","User") + "\n";
+        result += String.format("=============================================") + "\n";
         for (Invoice invoice : this) {
-            result += String.format(" %9d %20s", invoice.getID(), invoice.getUser().getName()) + "\n";
+            result += String.format(" %9d %10s %22s", invoice.getID(), invoice.getUser().getID(),
+                    invoice.getUser().getName()) + "\n";
         }
-        result += String.format("====================================") + "\n";
+        result += String.format("=============================================") + "\n";
         return result;
     }
 }

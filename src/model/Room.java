@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 
 import enums.RoomStatus;
 
-public class Room {
+public class Room implements java.io.Serializable {
     private static int singleRoomCount = 0;
     private static int doubleRoomCount = 0;
     private static int deluxeRoomCount = 0;
@@ -105,7 +105,7 @@ public class Room {
 
     @Override
     public String toString() {
-        return String.format("%3d %10s %10s %15s", this.roomNumber, this.roomType, this.roomStatus,
+        return String.format("%3d %13s %10s %12s", this.roomNumber, this.roomType, this.roomStatus,
                 this.user_id == -1 ? "Avaliable" : this.user_id) + "\n";
     }
 }

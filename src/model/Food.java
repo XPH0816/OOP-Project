@@ -5,7 +5,7 @@ import com.google.gson.Gson;
 import io.github.cdimascio.dotenv.Dotenv;
 import util.FoodList;
 
-public class Food {
+public class Food implements java.io.Serializable{
     private String name;
     private double price;
 

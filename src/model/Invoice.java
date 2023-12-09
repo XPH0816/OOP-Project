@@ -1,12 +1,19 @@
 package model;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+
 import enums.RoomStatus;
 import helper.Validator;
+import io.github.cdimascio.dotenv.Dotenv;
 import util.InvoiceList;
 import util.OrderList;
 import util.RoomList;
 
-public class Invoice {
+public class Invoice implements java.io.Serializable {
     private static int count = 0;
     private int ID;
     private RoomList roomList;
@@ -39,6 +46,7 @@ public class Invoice {
     }
 
     public void pay() {
+        Validator.clearScreen();
         System.out.print(this);
         double paid = Validator.getDouble("Enter amount paid: ", this.getTotalPrice(), Double.MAX_VALUE);
         System.out.println(String.format("Change : RM %.2f", paid - this.getTotalPrice()));
@@ -51,6 +59,36 @@ public class Invoice {
         return invoices.stream().filter(
                 (invoice) -> invoice.roomList.stream().allMatch((room) -> room.getRoomStatus() == RoomStatus.Empty))
                 .collect(InvoiceList::new, InvoiceList::add, InvoiceList::addAll);
+    }
+
+    public static InvoiceList all()
+    {
+        try{
+            FileInputStream fis = new FileInputStream(Dotenv.load().get("INVOICE_FILE", "invoice.dat"));
+            ObjectInputStream  ois = new ObjectInputStream(fis);
+            InvoiceList invoices = (InvoiceList) ois.readObject();
+            count = invoices.stream().mapToInt((invoice) -> invoice.ID).max().orElse(0);
+            Order.count = invoices.stream().flatMap((invoice) -> invoice.orderList.stream()).mapToInt((order) -> order.getID()).max().orElse(0);
+            User.count = invoices.stream().mapToInt((invoice) -> invoice.user.getID()).max().orElse(0);
+            ois.close();
+            fis.close();
+            return invoices;
+        } catch (Exception e) {
+            return new InvoiceList();
+        }
+    }
+
+    public static void save(InvoiceList invoices)
+    {
+        try {
+            FileOutputStream fos = new FileOutputStream(Dotenv.load().get("INVOICE_FILE", "invoice.dat"));
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(invoices);
+            oos.close();
+            fos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

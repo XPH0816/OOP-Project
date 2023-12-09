@@ -6,8 +6,8 @@ import util.OrderList;
 
 import java.util.stream.Collectors;
 
-public class Order {
-    private static int count = 0;
+public class Order implements java.io.Serializable{
+    static int count = 0;
     private int ID;
     private FoodList foodList;
     private OrderStatus orderStatus;

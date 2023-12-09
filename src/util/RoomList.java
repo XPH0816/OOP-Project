@@ -29,9 +29,9 @@ public class RoomList extends ArrayList<Room> implements Searchable<RoomList>{
     public String toString() {
         if(this.size() == 0) return String.format("No room");
         String result = "";
-        result += String.format("==============================================") + "\n";
-        result += String.format("  No RoomID %10s %10s %13s", "Type", "Status", "User") + "\n";
-        result += String.format("==============================================") + "\n";
+        result += String.format("====================================================") + "\n";
+        result += String.format("  No RoomID %10s %10s %12s", "Type", "Status", "User") + "\n";
+        result += String.format("====================================================") + "\n";
         for (Room room : this) {
             result += String.format(" %3d %s", indexOf(room) + 1, room);
         }
